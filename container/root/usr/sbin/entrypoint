@@ -7,7 +7,7 @@ import os, sys, shutil
 
 
 def file_for_zone(zone):
-    return '/var/bind/ns-dyn/{zone}'.format(zone=zone)
+    return '/var/bind/rfc2136-dns-container/{zone}'.format(zone=zone)
 
 
 def config_named():
@@ -20,15 +20,15 @@ def config_named():
 
 
 def init_zones():
-    if not os.path.exists('/var/bind/ns-dyn'):
-        os.mkdir('/var/bind/ns-dyn')
-    shutil.chown('/var/bind/ns-dyn', 'named')
+    if not os.path.exists('/var/bind/rfc2136-dns-container'):
+        os.mkdir('/var/bind/rfc2136-dns-container')
+    shutil.chown('/var/bind/rfc2136-dns-container', 'named')
 
     for zone in config['zones']:
         zone_file = file_for_zone(zone)
         if not os.path.exists(zone_file):
            context = { 'zone': zone }
-           env.get_template('ns-dyn-initial-zone.j2').stream(context).dump(zone_file)
+           env.get_template('rfc2136-dns-container-initial-zone.j2').stream(context).dump(zone_file)
         shutil.chown(zone_file, 'named')
 
 
@@ -36,7 +36,7 @@ def run_cmd():
     os.execv(sys.argv[1], sys.argv[1:])
 
 
-with open('/etc/bind/ns-dyn-config.yaml', 'r') as f:
+with open('/etc/bind/rfc2136-dns-container.yml', 'r') as f:
     config = yaml.safe_load(f)
 env = Environment(loader=FileSystemLoader('/etc/bind'))
 config_named()
