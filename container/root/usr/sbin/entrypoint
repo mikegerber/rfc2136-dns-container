@@ -3,7 +3,7 @@ from __future__ import division, print_function
 from jinja2 import Environment, FileSystemLoader
 import yaml
 import textwrap
-import os, sys, shutil
+import os, sys, shutil, subprocess
 
 
 def file_for_zone(zone):
@@ -11,6 +11,9 @@ def file_for_zone(zone):
 
 
 def config_named():
+    # generate rndc.key
+    subprocess.run(["/usr/sbin/rndc-confgen", "-u", "named", "-a"])
+
     context = {
         'keys': config['keys'],
         'zones': config['zones'],

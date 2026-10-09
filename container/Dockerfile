@@ -8,7 +8,6 @@ RUN apk add --no-cache \
   py3-yaml
 
 COPY root /
-RUN /usr/sbin/rndc-confgen -u named -a  # generate rndc.key
 
 ENTRYPOINT ["/usr/sbin/entrypoint"]
 CMD ["/usr/sbin/named", "-u", "named", "-g"]
