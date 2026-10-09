@@ -27,7 +27,7 @@ jobs:
 
       - name: Smoke test
         run: |
-          sh test/smoketest.sh
+          bash test/smoketest.sh
 
       - name: Functional tests
         run: |
