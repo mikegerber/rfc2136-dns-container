@@ -31,5 +31,5 @@ jobs:
 
       - name: Functional tests
         run: |
-          bash tests/container.sh
+          bash tests/functional.sh
 
