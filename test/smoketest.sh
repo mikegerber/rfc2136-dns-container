@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-test_dir="$(dirname $0)"
-test_config="$(realpath "$test_dir/rfc2136-dns-container.yml")"
+test_dir="$(realpath "$(dirname $0)")"
+test_config="$test_dir/rfc2136-dns-container.yml"
 
 CID=$(docker run \
   -d \
