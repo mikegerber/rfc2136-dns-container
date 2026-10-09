@@ -15,7 +15,7 @@ trap 'docker rm -f "$CID" >/dev/null 2>&1 || true' EXIT
 SERVER="${SERVER:-127.0.0.1}"
 PORT="${PORT:-5353}"
 ZONE="${ZONE:-dyn.example.com}"
-KEY_FILE="${KEY_FILE:-$test_dir/tests/tsig.key}"
+KEY_FILE="${KEY_FILE:-$test_dir/tsig.key}"
 
 ZONE="${ZONE%.}"
 RECORD="test.$ZONE."
