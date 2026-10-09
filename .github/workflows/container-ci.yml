@@ -21,7 +21,7 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v7
         with:
-          context: .
+          context: container
           load: true
           tags: rfc2136-dns-container:test
 
