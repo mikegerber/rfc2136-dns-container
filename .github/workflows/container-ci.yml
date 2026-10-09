@@ -1,0 +1,35 @@
+name: Container CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          load: true
+          tags: rfc2136-dns-container:test
+
+      - name: Smoke test
+        run: |
+          docker run --rm rfc2136-dns-container:test
+
+      - name: Functional tests
+        run: |
+          bash tests/container.sh
+
