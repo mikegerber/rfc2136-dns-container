@@ -27,7 +27,7 @@ jobs:
 
       - name: Smoke test
         run: |
-          docker run --rm rfc2136-dns-container:test
+          sh test/smoketest.sh
 
       - name: Functional tests
         run: |
