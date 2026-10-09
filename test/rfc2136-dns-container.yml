@@ -1,0 +1,9 @@
+keys:
+  # all hmac-sha512
+  # python3 -c 'import os, base64; print(base64.b64encode(os.urandom(64)).decode("ascii"))'
+  # note: key names are significant, *DO NOT RENAME*
+  test: "AM7j7ILy6y6LlCsdlAkTbgf4nnrYCpElHQEfdMy98IMN91lMMuEQvbFux7c4p5McTvRpHDBcuXWErHKQXkrOeQ=="
+
+zones:
+  dyn.example.com:
+    test.dyn.example.com: test
