@@ -31,5 +31,5 @@ jobs:
 
       - name: Functional tests
         run: |
-          bash tests/functional.sh
+          bash test/functional.sh
 
