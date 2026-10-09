@@ -1,0 +1,11 @@
+$ORIGIN .
+$TTL 60
+
+{{zone}} IN SOA  {{soa_mname}}. {{soa_rname}}. (
+        0          ; serial
+        86400      ; refresh
+        3600       ; retry
+        604800     ; expire
+        60         ; minimum
+    )
+    NS    {{soa_mname}}.

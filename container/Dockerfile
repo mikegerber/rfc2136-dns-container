@@ -1,0 +1,18 @@
+FROM       alpine:3
+MAINTAINER Mike Gerber <mike@mike-gerber.de>
+
+RUN apk add --no-cache \
+  bind \
+  bind-tools \
+  py3-jinja2 \
+  py3-yaml
+
+COPY root /
+RUN /usr/sbin/rndc-confgen -u named -a  # generate rndc.key
+
+ENTRYPOINT ["/usr/sbin/entrypoint"]
+CMD ["/usr/sbin/named", "-u", "named", "-g"]
+
+VOLUME /var/bind/ns-dyn
+EXPOSE 53/udp
+EXPOSE 53

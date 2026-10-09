@@ -1,0 +1,35 @@
+options {
+    directory       "/var/bind";
+
+    listen-on port 53 { any; };
+    allow-query { any; };
+    allow-transfer { none; };
+    allow-recursion { none; };
+    recursion no;
+
+    max-cache-size 1M;
+
+    pid-file "/run/named/named.pid";
+    session-keyfile "/var/bind/session.key";
+};
+
+
+{% for key, secret in keys.items() %}
+key "{{ key }}" {
+    algorithm hmac-sha512;
+    secret "{{ secret }}";
+};
+{% endfor %}
+
+
+{% for zone in zones %}
+zone "{{zone}}" {
+    type master;
+    file "{{ zone_files[zone] }}";
+    update-policy {
+        {% for name, key in zones[zone].items() %}
+        grant {{ key }} name {{ name }};
+        {% endfor %}
+    };
+};
+{% endfor %}
