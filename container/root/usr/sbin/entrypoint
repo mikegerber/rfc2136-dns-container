@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 from __future__ import division, print_function
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, StrictUndefined
 import yaml
 import textwrap
 import os, sys, shutil, subprocess
@@ -41,7 +41,10 @@ def run_cmd():
 
 with open('/etc/bind/rfc2136-dns-container.yml', 'r') as f:
     config = yaml.safe_load(f)
-env = Environment(loader=FileSystemLoader('/etc/bind'))
+env = Environment(
+        loader=FileSystemLoader('/etc/bind'),
+        undefined=StrictUndefined,
+)
 config_named()
 init_zones()
 run_cmd()
