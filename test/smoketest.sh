@@ -8,7 +8,7 @@ CID=$(docker run \
   -d \
   --volume $test_config:/etc/bind/rfc2136-dns-container.yml:ro \
   rfc2136-dns-container:test)
-trap 'docker rm -f "$CID" >/dev/null 2>&1 || true' EXIT
+trap 'docker container rm -fv "$CID" >/dev/null 2>&1 || true' EXIT
 
 sleep 5
 
