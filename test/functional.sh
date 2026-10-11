@@ -10,7 +10,7 @@ CID=$(docker run \
   -p 5353:53 \
   -p 5353:53/udp \
   rfc2136-dns-container:test)
-trap 'docker rm -f "$CID" >/dev/null 2>&1 || true' EXIT
+trap 'docker container rm -fv "$CID" >/dev/null 2>&1 || true' EXIT
 
 SERVER="${SERVER:-127.0.0.1}"
 PORT="${PORT:-5353}"
@@ -47,11 +47,6 @@ assert_record() {
         exit 1
     fi
 }
-
-cleanup() {
-    update "update delete $RECORD A" || true
-}
-trap cleanup EXIT
 
 echo "Waiting for DNS server..."
 for i in {1..30}; do
