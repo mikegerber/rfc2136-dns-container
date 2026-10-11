@@ -1,3 +1,6 @@
+soa_mname: ns-dyn.bl0rg.net
+soa_rname: root@bl0rg.net
+
 keys:
   # all hmac-sha512
   # python3 -c 'import os, base64; print(base64.b64encode(os.urandom(64)).decode("ascii"))'

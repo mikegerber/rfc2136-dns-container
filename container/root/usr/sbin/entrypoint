@@ -30,7 +30,11 @@ def init_zones():
     for zone in config['zones']:
         zone_file = file_for_zone(zone)
         if not os.path.exists(zone_file):
-           context = { 'zone': zone }
+           context = {
+              'soa_mname': config['soa_mname'],
+              'soa_rname': config['soa_rname'],
+              'zone': zone,
+           }
            env.get_template('rfc2136-dns-container-initial-zone.j2').stream(context).dump(zone_file)
         shutil.chown(zone_file, 'named')
 
