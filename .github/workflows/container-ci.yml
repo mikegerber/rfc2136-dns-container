@@ -33,3 +33,12 @@ jobs:
         run: |
           bash test/functional.sh
 
+      - name: Scan vulnerabilities
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: rfc2136-dns-container:test
+          scan-type: image
+          scanners: vuln
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: '1'
