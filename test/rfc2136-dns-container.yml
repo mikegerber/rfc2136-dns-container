@@ -1,5 +1,5 @@
-soa_mname: ns-dyn.bl0rg.net
-soa_rname: root@bl0rg.net
+soa_mname: ns-dyn.example.com
+soa_rname: hostmaster@example.com
 
 keys:
   # all hmac-sha512
