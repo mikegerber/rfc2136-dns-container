@@ -14,7 +14,7 @@ The container runs BIND 9 and generates its configuration from a simple YAML fil
 Create a file named `config.yml`:
 
 ```yaml
-soa_mname: ns.example.com
+soa_mname: ns-dyn.example.com
 soa_rname: hostmaster.example.com
 
 keys:
@@ -22,16 +22,17 @@ keys:
   acme: "ANOTHER_BASE64_ENCODED_TSIG_SECRET"
 
 zones:
-  example.com:
+  dyn.example.com:
     home: dyndns
+  acme.example.com:
     _acme-challenge: acme
 ```
 
 This configuration:
 
-- Creates an authoritative DNS zone for `example.com`.
-- Allows the `dyndns` key to update `home.example.com`.
-- Allows the `acme` key to update `_acme-challenge.example.com`.
+- Creates authoritative DNS zones for `dyn.example.com` and `acme.example.com`.
+- Allows the `dyndns` key to update `home.dyn.example.com`.
+- Allows the `acme` key to update `_acme-challenge.acme.example.com`.
 
 The `soa_mname` and `soa_rname` settings specify the primary authoritative nameserver (= the server this is running on) and responsible party for the SOA record. For `soa_rname`, use the DNS representation of an email address (`hostmaster.example.com` corresponds to `hostmaster@example.com`).
 
