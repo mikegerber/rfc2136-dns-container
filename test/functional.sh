@@ -16,7 +16,9 @@ trap 'docker container rm -fv "$CID" >/dev/null 2>&1 || true' EXIT
 
 SERVER="${SERVER:-127.0.0.1}"
 ZONE="${ZONE:-dyn.example.com}"
-KEY_FILE="${KEY_FILE:-$test_dir/test-tsig.key}"
+KEY_FILE_VALID="${KEY_FILE:-$test_dir/test-tsig.key}"
+KEY_FILE_UNAUTH="${KEY_FILE:-$test_dir/test-tsig-unauthorized.key}"
+KEY_FILE=$KEY_FILE_VALID
 
 ZONE="${ZONE%.}"
 RECORD="test.$ZONE."
@@ -95,6 +97,11 @@ assert_status "NOERROR"
 
 echo "Testing DELETE..."
 update "update delete $RECORD A"
+assert_record ""
+assert_status "NXDOMAIN"
+
+echo "Testing CREATE with unauthorized key fails..."
+! KEY_FILE=$KEY_FILE_UNAUTH update "update add $RECORD 60 A $IP1"
 assert_record ""
 assert_status "NXDOMAIN"
 
