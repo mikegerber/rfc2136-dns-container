@@ -22,6 +22,7 @@ KEY_FILE=$KEY_FILE_VALID
 
 ZONE="${ZONE%.}"
 RECORD="test.$ZONE."
+RECORD_DIFFERENT="different.$ZONE."
 IP1="192.0.2.10"
 IP2="192.0.2.20"
 
@@ -105,5 +106,7 @@ echo "Testing CREATE with unauthorized key fails..."
 assert_record ""
 assert_status "NXDOMAIN"
 
-echo "PASS: RFC 2136 functional tests"
+echo "Testing CREATE on unauthorized name fails..."
+! update "update add $RECORD_DIFFERENT 60 A $IP1"
 
+echo "PASS: RFC 2136 functional tests"
