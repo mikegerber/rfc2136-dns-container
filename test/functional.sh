@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+PORT="${PORT:-18657}"
+
 test_dir="$(realpath "$(dirname $0)")"
 test_config="$test_dir/rfc2136-dns-container.yml"
 
 CID=$(docker run \
   -d \
   --volume $test_config:/etc/bind/rfc2136-dns-container.yml:ro \
-  -p 5353:53 \
-  -p 5353:53/udp \
+  -p $PORT:53 \
+  -p $PORT:53/udp \
   rfc2136-dns-container:test)
 trap 'docker container rm -fv "$CID" >/dev/null 2>&1 || true' EXIT
 
 SERVER="${SERVER:-127.0.0.1}"
-PORT="${PORT:-5353}"
 ZONE="${ZONE:-dyn.example.com}"
 KEY_FILE="${KEY_FILE:-$test_dir/test-tsig.key}"
 
