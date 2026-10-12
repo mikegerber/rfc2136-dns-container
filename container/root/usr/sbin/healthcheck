@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+result=$(dig @127.0.0.1 -p 53 CH TXT hostname.bind +short +time=2 +tries=1)
+test -n "$result"
