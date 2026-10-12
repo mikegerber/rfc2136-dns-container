@@ -22,6 +22,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: container
+          platforms: linux/amd64
           load: true
           tags: rfc2136-dns-container:test
 
