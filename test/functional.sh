@@ -37,11 +37,29 @@ query() {
         @"$SERVER" -p "$PORT" "$RECORD" A
 }
 
+query_status() {
+    dig +noall +comments +time=2 +tries=1 \
+        @"$SERVER" -p "$PORT" "$RECORD" A \
+        | sed -n 's/.*status: \([^,]*\).*/\1/p'
+}
+
 assert_record() {
     local expected="$1"
     local actual
 
     actual="$(query)"
+
+    if [[ "$actual" != "$expected" ]]; then
+        echo "FAIL: expected '$expected', got '$actual'"
+        exit 1
+    fi
+}
+
+assert_status() {
+    local expected="$1"
+    local actual
+
+    actual="$(query_status)"
 
     if [[ "$actual" != "$expected" ]]; then
         echo "FAIL: expected '$expected', got '$actual'"
@@ -67,15 +85,18 @@ done
 echo "Testing CREATE..."
 update "update add $RECORD 60 A $IP1"
 assert_record "$IP1"
+assert_status "NOERROR"
 
 echo "Testing REPLACE..."
 update "update delete $RECORD A
 update add $RECORD 60 A $IP2"
 assert_record "$IP2"
+assert_status "NOERROR"
 
 echo "Testing DELETE..."
 update "update delete $RECORD A"
 assert_record ""
+assert_status "NXDOMAIN"
 
 echo "PASS: RFC 2136 functional tests"
 
