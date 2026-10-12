@@ -9,4 +9,4 @@ keys:
 
 zones:
   dyn.example.com:
-    test.dyn.example.com: test
+    test: test

@@ -28,7 +28,7 @@ zone "{{zone}}" {
     file "{{ zone_files[zone] }}";
     update-policy {
         {% for name, key in zones[zone].items() %}
-        grant {{ key }} name {{ name }};
+        grant {{ key }} name {{ name }}.{{ zone }};
         {% endfor %}
     };
 };
