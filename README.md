@@ -42,7 +42,7 @@ Create a `docker-compose.yml`:
 ```yaml
 services:
   dns:
-    image: ghcr.io/mikegerber/rfc2136-dns-container:latest
+    image: ghcr.io/mikegerber/rfc2136-dns-container:main
     restart: unless-stopped
 
     ports:
