@@ -90,6 +90,67 @@ E.g.
 _acme-challenge.example.com. CNAME _acme-challenge.acme.example.com.
 
 
+## Creating keys
+
+TSIG secrets must be base64-encoded keys. Generate a key using:
+
+```sh
+tsig-keygen -a hmac-sha512 dyndns
+```
+
+Repeat for each key and copy the generated `secret` values into the YAML configuration. Note that
+the key *name* must match on client and server.
+
+**Keep this configuration private:** It contains credentials that authorize DNS updates.
+
+
+## Testing
+
+Query the authoritative server:
+
+```sh
+dig @127.0.0.1 dyn.example.com SOA
+```
+
+To test a dynamic update, create a TSIG key file containing the same key and secret as configured above:
+
+```text
+key "dyndns" {
+    algorithm hmac-sha512;
+    secret "BASE64_ENCODED_TSIG_SECRET";
+};
+```
+
+Then run:
+
+```sh
+nsupdate -k dyndns.key
+```
+
+Enter:
+
+```text
+server 127.0.0.1
+zone dyn.example.com
+update add home.dyn.example.com. 60 A 192.0.2.123
+send
+```
+
+Verify the record:
+
+```sh
+dig @127.0.0.1 home.dyn.example.com A +short
+```
+
+Expected result:
+
+```text
+192.0.2.123
+```
+
+The server supports standard RFC 2136 clients, including `nsupdate` and ACME clients with RFC 2136 DNS provider support.
+
+
 ## Notes
 
 - The server is **authoritative only**. Recursive DNS queries are disabled.
