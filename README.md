@@ -73,3 +73,14 @@ docker compose logs -f dns
 Port 53 must be available on the host for both UDP and TCP.
 
 The `dns-data` volume stores zone files and dynamic updates, preserving DNS records across container restarts and upgrades.
+
+
+## Notes
+
+- The server is **authoritative only**. Recursive DNS queries are disabled.
+- DNS zone transfers are disabled.
+- Dynamic update permissions are restricted to the configured record names.
+- A separate TSIG key can be assigned to each record name.
+- Zone files are initialized automatically if they do not exist.
+- Existing zone files are preserved on restart.
+- The image includes a health check that queries the local DNS server without depending on any configured zone.
